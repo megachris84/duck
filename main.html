@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mobile compatibility test</title>
+    <style>
+		/* Lock zoom */
+		html {
+		touch-action: manipulation; /* Ensures touch gestures like pinch-zooming are disabled */
+		zoom: reset; /* Ensures zoom is reset to 1x */
+		max-zoom: 1; /* Ensures no zooming in */
+		}
+		
+        /* General styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .button-container {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px;
+        }
+		
+		input[type=number] {
+			padding: 10px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			width: 200px;
+			margin-bottom: 20px;
+		}
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            white-space: nowrap; /* Prevent button text from wrapping */
+        }
+		
+		button:hover {
+			background-color: #45a049;
+		}
+        
+        /* Container styles */
+        #mobile {
+            display: flex;
+            flex-direction: column; /* Stacked vertically by default */
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        #desktop {
+            display: flex;
+            flex-direction: row; /* Lined up horizontally on desktop */
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Section styles */
+		.changelog,
+        .stats,
+        .home,
+        .shop,
+        .credits,
+		.cheats{
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            text-align: center;
+            font-size: 20px;
+            color: #333; /* Text color */
+        }
+		
+		.home {
+		    flex: 1; /* Take remaining space */
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column; /* Display children in a column */
+            justify-content: center;
+            align-items: center;
+            text-align: center; 
+            padding: 20px;
+            font-size: 27px;
+		}
+		
+		.shop {
+            flex: 1; /* Take remaining space */
+            background-color: #e0e0e0;
+            overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Align items from top to bottom */
+            align-items: flex-start; /* Align items to the left */
+        }
+		
+		.cheats,
+		.changelog {
+		flex-direction: column;
+		}
+        /* Media query for mobile devices */
+        @media (max-width: 768px) {
+            #desktop {
+                display: none; /* Hide desktop layout on mobile */
+            }
+            
+            #mobile {
+                display: flex; /* Ensure mobile layout is displayed */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="button-container">
+    <button onclick="openPage('stats')">Stats</button>
+    <button onclick="openPage('home')">Home</button>
+    <button onclick="openPage('shop')">Shop</button>
+    <button onclick="openPage('credits')">Credits</button>
+	<button onclick="openPage('changelog')">Changelog</button>
+	<button onclick="openPage('cheats')">Cheats (TEMP)</button>
+</div>
+
+<div id="mobile" style="display: none;">
+    <div class="stats" id="stats">Stats</div>
+	
+    <div class="home" id="home">
+        <img id="duckMobile" onclick="buttonClick(1)" src="https://static.wikia.nocookie.net/the-rp-crew/images/1/10/Mr._Rubber_Ducky_Model.png/revision/latest/scale-to-width-down/317?cb=20221202165102" alt="Duck" width="250" height="300">
+        <br>
+        <p id="score">0</p>
+		<p id="cps">0</p>
+    </div>
+	
+    <div class="shop" id="shop">
+        <button onclick="buy(0)">Buy Upgrade 1 + 0.1 cps Cost: <span id="buy0">10</span></button>
+        <button onclick="buy(1)">Buy Upgrade 2 + 1 cps Cost: <span id="buy1">25</span></button>
+        <button onclick="buy(2)">Buy Upgrade 3 + 10 cps Cost: <span id="buy2">50</span></button>
+        <button onclick="buy(3)">Buy Upgrade 4 + 50 cps Cost:<span id="buy3">100</span></button>
+    </div>
+	
+    <div class="credits" id="credits">
+        Credits<br>
+        Creator: Christopher
+    </div>
+	
+	<div class="cheats" id="cheats" style="display: none;">
+	<form>
+        <input type="number" id="userNumber" placeholder="Enter a number">
+        <br>
+        <button type="button" onclick="submitNumber()">Submit</button>
+    </form>
+		<button onclick="mode = 'c'">set clicks</button>
+		<button onclick="mode = 'cp'">set cp</button>
+		<button onclick="mode = 'cps'">set cps</button>
+    </div>
+	
+	<div class="changelog" id="changelog" style="display: none;">
+		<p>v1.04 6/25/2024 Fixed menus for mobile and added cheats</p>
+		<p>v1.03 6/25/2024 Made the shop worth it (prior wouldnt receive any cps), Added changelog, Shop shows what you will receive for each upgrade, Cps also shows</p>
+		<p>v1.02 6/25/2024 Removed zooming for mobile </p>
+        <p>v1.01 6/25/2024 Release </p>
+    </div>
+	
+</div>
+
+<div id="desktop" style="display: flex;">
+    <div class="stats" id="statsDesktop" style="display: none;">Stats</div>
+	
+    <div class="home" id="homeDesktop" style="display: none;">
+        <img id="duckDesktop" onclick="buttonClick(1)" src="https://static.wikia.nocookie.net/the-rp-crew/images/1/10/Mr._Rubber_Ducky_Model.png/revision/latest/scale-to-width-down/317?cb=20221202165102" alt="Duck" width="250" height="300">
+        <br>
+        <p id="scoreDesktop">0</p>
+		<p id="cpsDesktop">0</p>
+    </div>
+    
+    <div class="shop" id="shopDesktop" style="display: flex;">
+        <button onclick="buy(0)">Buy Upgrade 1 + 0.1 cps Cost: <span id="buyDesktop0">10</span></button>
+        <button onclick="buy(1)">Buy Upgrade 2 + 1 cps Cost: <span id="buyDesktop1">25</span></button>
+        <button onclick="buy(2)">Buy Upgrade 3 + 10 cps Cost: <span id="buyDesktop2">50</span></button>
+        <button onclick="buy(3)">Buy Upgrade 4 + 50 cps Cost: <span id="buyDesktop3">100</span></button>
+    </div>
+    
+    <div class="credits" id="creditsDesktop" style="display: none;">
+        Credits<br>
+        Creator: Christopher
+    </div>
+	
+	<div class="cheats" id="cheatsDesktop" style="display: none;">
+		<button onclick="setc(parseInt(prompt(value)))">set clicks</button>
+		<button onclick="setcp(parseInt(prompt(value)))">set cp</button>
+		<button onclick="setcps(parseInt(prompt(value)))">set cps</button>
+    </div>
+	
+	<div class="changelog" id="changelogDesktop" style="display: none;">
+		<p>v1.04 6/25/2024 Fixed menus for mobile and added cheats</p>
+		<p>v1.03 6/25/2024 Made the shop worth it (prior wouldnt receive any cps), Added changelog, Shop shows what you will receive for each upgrade, Cps also shows</p>
+		<p>v1.02 6/25/2024 Removed zooming for mobile </p>
+        <p>v1.01 6/25/2024 Release </p>
+    </div>
+	
+</div>
+
+<script>
+function isMobileDevice() {
+    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+}
+
+function showCorrectDiv() {
+    var mobileDiv = document.getElementById('mobile');
+    var desktopDiv = document.getElementById('desktop');
+
+    if (isMobileDevice()) {
+        mobileDiv.style.display = 'flex';
+        desktopDiv.style.display = 'none';
+    } else {
+        mobileDiv.style.display = 'none';
+        desktopDiv.style.display = 'flex';
+    }
+}
+
+function openPage(page) {
+    var statsDiv, homeDiv, shopDiv, creditsDiv, cheats, changelogDiv;
+
+    if (isMobileDevice()) {
+        statsDiv = document.getElementById('stats');
+        homeDiv = document.getElementById('home');
+        shopDiv = document.getElementById('shop');
+        creditsDiv = document.getElementById('credits');
+		cheatsDiv = document.getElementById('cheats');
+		changelogDiv = document.getElementById('changelog');
+    } else {
+        statsDiv = document.getElementById('statsDesktop');
+        homeDiv = document.getElementById('homeDesktop');
+        shopDiv = document.getElementById('shopDesktop');
+        creditsDiv = document.getElementById('creditsDesktop');
+		cheatsDiv = document.getElementById('cheatsDesktop');
+		changelogDiv = document.getElementById('changelogDesktop');
+    }
+
+    statsDiv.style.display = 'none';
+    homeDiv.style.display = 'none';
+    shopDiv.style.display = 'none';
+    creditsDiv.style.display = 'none';
+	cheatsDiv.style.display = 'none';
+	changelogDiv.style.display = 'none';
+
+    if (page === 'home') {
+        homeDiv.style.display = 'flex';
+    } else if (page === 'stats') {
+        statsDiv.style.display = 'flex';
+    } else if (page === 'shop') {
+        shopDiv.style.display = 'flex';
+    } else if (page === 'credits') {
+        creditsDiv.style.display = 'flex';
+    } else if (page === 'cheats') {
+        cheatsDiv.style.display = 'flex';
+    } else if (page === 'changelog') {
+        changelogDiv.style.display = 'flex';
+    }
+}
+
+window.onload = function() {
+    showCorrectDiv();
+    openPage('home');
+	start();
+    update(); // Call update function initially to set the correct values
+};
+		
+// Game program
+        console.log("you shouldn't be here");
+		var cp = 1
+		var cps = 0
+        var clicks = 0;
+        var costs = [15, 100, 1100, 12000];
+		var cpsgain = [0.1, 1, 10, 50];
+		
+		function start() {
+		setInterval(tick, 1000);
+		}
+		
+		function tick(){
+		console.log('tick');
+		clicks = clicks + cps;
+		clicks = Math.round(clicks * 10) / 10;
+		update();
+		}
+
+        function buttonClick(id) {
+            clicks = clicks + cp;
+            update();
+        }
+
+        function buy(i) {
+            if (clicks >= costs[i]) {
+                clicks -= costs[i];
+				cps = cps + cpsgain[i];
+				cps = Math.round(cps * 10) / 10;
+                console.log(`You bought ${costs[i]}`);
+                costs[i] = Math.round(costs[i] * 1.15);
+                update();
+            } else {
+                console.log('Not enough ducks!');
+            }
+        }
+
+        function update() {
+            for (var i = 0; i < costs.length; i++) {
+                document.getElementById("buy" + i).innerHTML = costs[i];
+				document.getElementById("buyDesktop" + i).innerHTML = costs[i];
+            }
+            document.getElementById("score").innerHTML ='Clicks: '+clicks;
+			document.getElementById("scoreDesktop").innerHTML ='Clicks: '+clicks;
+			
+			document.getElementById("cps").innerHTML = 'Cps: '+cps;
+			document.getElementById("cpsDesktop").innerHTML ='Cps: '+cps;
+        }
+		
+		
+		
+		//Cheats
+		var mode = 'c';
+		
+		function submitNumber() {
+            var userInput = document.getElementById("userNumber").value;
+			console.log(userInput);
+			if (mode === 'c') {
+				setc(parseInt(userInput));
+			} else if (mode === 'cp'){
+				setcp(parseInt(userInput));
+			} else if (mode === 'cps'){
+				setcps(parseInt(userInput));
+			}
+        }
+
+		function setc(value){
+		if (value >= 0) {
+			clicks = value;
+			update();
+			}
+		}
+		function setcp(value){
+		if (value >= 0) {
+			cp = value;
+			}
+		}
+		function setcps(value){
+		if (value >= 0) {
+			cps = value;
+			}
+		}
+</script>
+
+</body>
+</html>
