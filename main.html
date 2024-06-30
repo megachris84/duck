@@ -3,41 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mobile compatibility test</title>
+    <title>Duck Clicker</title>
     <style>
-		/* Lock zoom */
-		html {
-		touch-action: manipulation; /* Ensures touch gestures like pinch-zooming are disabled */
-		zoom: reset; /* Ensures zoom is reset to 1x */
-		max-zoom: 1; /* Ensures no zooming in */
-		}
-		
+        /* Lock zoom */
+        html {
+            touch-action: manipulation; /* Ensures touch gestures like pinch-zooming are disabled */
+            zoom: reset; /* Ensures zoom is reset to 1x */
+            max-zoom: 1; /* Ensures no zooming in */
+        }
+        
         /* General styles */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: black;  /* #f0f0f0 #939799  #d3d3d3*/
         }
 
         .button-container {
             display: flex;
             overflow-x: auto;
             padding: 10px;
+            justify-content: flex-start;
         }
-		
-		input[type=number] {
-			padding: 10px;
-			font-size: 16px;
-			border: 1px solid #ccc;
-			border-radius: 5px;
-			width: 200px;
-			margin-bottom: 20px;
-		}
+        
+        input[type=number] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            margin-bottom: 20px;
+        }
         button {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
+            background-color: orange;  /* #4CAF50 #FFA500 */
+            color: black;
             text-align: center;
             text-decoration: none;
             font-size: 16px;
@@ -47,212 +48,177 @@
             margin-bottom: 10px;
             white-space: nowrap; /* Prevent button text from wrapping */
         }
-		
-		button:hover {
-			background-color: #45a049;
-		}
         
         /* Container styles */
-        #mobile {
+        #screen {
             display: flex;
             flex-direction: column; /* Stacked vertically by default */
             height: 100vh;
-            overflow: hidden;
-        }
-        
-        #desktop {
-            display: flex;
-            flex-direction: row; /* Lined up horizontally on desktop */
-            height: 100vh;
-            overflow: hidden;
+            overflow: show;
         }
         
         /* Section styles */
-		.changelog,
+        .settings,
+        .changelog,
         .stats,
         .home,
         .shop,
         .credits,
-		.cheats{
+        .cheats {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
             text-align: center;
-            font-size: 20px;
-            color: #333; /* Text color */
-        }
-		
-		.home {
-		    flex: 1; /* Take remaining space */
-            background-color: #f0f0f0;
-            display: flex;
-            flex-direction: column; /* Display children in a column */
-            justify-content: center;
             align-items: center;
-            text-align: center; 
-            padding: 20px;
-            font-size: 27px;
-		}
-		
-		.shop {
-            flex: 1; /* Take remaining space */
-            background-color: #e0e0e0;
-            overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
-            padding: 20px;
+            font-size: 20px;
+            color: white;   /*#333 white  */
+            flex-direction: column;
             display: flex;
-            flex-direction: column; /* Align items from top to bottom */
-            align-items: flex-start; /* Align items to the left */
         }
-		
-		.cheats,
-		.changelog {
-		flex-direction: column;
-		}
-        /* Media query for mobile devices */
-        @media (max-width: 768px) {
-            #desktop {
-                display: none; /* Hide desktop layout on mobile */
-            }
-            
-            #mobile {
-                display: flex; /* Ensure mobile layout is displayed */
-            }
+        
+        .home {
+            font-size: 24px;
+        }
+        
+        .settings {
+            align-items: flex-start;
         }
     </style>
 </head>
 <body>
 
-<div class="button-container">
+<div id="bar" class="button-container">
     <button onclick="openPage('stats')">Stats</button>
     <button onclick="openPage('home')">Home</button>
     <button onclick="openPage('shop')">Shop</button>
+    <button onclick="openPage('settings')">Settings</button>
+    <button onclick="openPage('changelog')">Changelog</button>
     <button onclick="openPage('credits')">Credits</button>
-	<button onclick="openPage('changelog')">Changelog</button>
-	<button onclick="openPage('cheats')">Cheats (TEMP)</button>
+    <button onclick="openPage('cheats')">Cheats (TEMP)</button>
 </div>
 
-<div id="mobile" style="display: none;">
-    <div class="stats" id="stats">Stats</div>
-	
+<div id="screen">
+    <div class="stats" id="stats">
+        <p>Stats</p>
+    </div>
+    
     <div class="home" id="home">
         <img id="duckMobile" onclick="buttonClick(1)" src="https://static.wikia.nocookie.net/the-rp-crew/images/1/10/Mr._Rubber_Ducky_Model.png/revision/latest/scale-to-width-down/317?cb=20221202165102" alt="Duck" width="250" height="300">
         <br>
         <p id="score">0</p>
-		<p id="cps">0</p>
+        <p id="cps">0</p>
     </div>
-	
+    
     <div class="shop" id="shop">
-        <button onclick="buy(0)">Buy Upgrade 1 + 0.1 cps Cost: <span id="buy0">10</span></button>
-        <button onclick="buy(1)">Buy Upgrade 2 + 1 cps Cost: <span id="buy1">25</span></button>
-        <button onclick="buy(2)">Buy Upgrade 3 + 10 cps Cost: <span id="buy2">50</span></button>
-        <button onclick="buy(3)">Buy Upgrade 4 + 50 cps Cost:<span id="buy3">100</span></button>
+        <button onclick="buy(0)"><img src="data:image/png;base64,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" alt="duck" width="50" height="50">Mini Ducks + 0.1 cps Cost: <span id="buy0">10</span></button>
+        <button onclick="buy(1)"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAACw0lEQVRoge2XS0gVYRTHf9/MvXPN6zU1K0GLKKOCKKRNLSKIiKJFi8THLkKKgqhFu4LWRYugB0VBRhnmIggsMKUoKskW2Tvt/TIoyvKq9znfaeGlF0omM5Ly/XYzczj/859zDjMfGAwGg8FgMBgMBoPBYDAYDN5x/ljN1E9tK+TuhZW6oaHB9ktH+ZUY4FHj6vi80rshbWmQANq1udFaXl/4qrWqMOlStOeWZ/qWV4kGY25pe+jRh7rItl2L0ErxsTaHOU+aqgoTvbx52uuplm9GWpsP7UTZVG/YsPzhpZt01drY2iItaXoeJ/mycfckL/V8M9Lf031aVJr2pq/nm9sKCKXDoIMkO1JYOsCcy/s+e6nn647oziJRWICLjk+kq87BIsHH2Wvay2r2l3mp5asRALejWCwlgCDaAYRP0RKuvtweqKiocL3S8WW0Wk7uqO1tXCD3zy4WSwbelYhCWTGUlWZK7mvWLdyavn3l+HyvNH3pSLxzivS9CJM/M8bAaAmSCuNmRQm4Pz8lroLA7C5PavClI46EyC0RRCm0SgGggv3En0/4Lc7WmramvZVeaPpiRCwb20kQe5vFt84ISQIATJiRBJEfca4KMiu/5YQXmv4YIUnfW5vskhh5pQmCGZnUuzBkTAHYIsSyty7xQtOXHUk+myYkgthWknR/EDvSi3LDpOw+HHFQaLTlsv7eNU6ligdPUhX5p9p8MXLwYtvhLaVrN0vaovuNTSTs4EyOo60UoJh+5yHvxRleMkFTHfnrz6Z3Ruqj8utlCHg5vZyCvAfY4nDu1QEqo8tGnl/kOtW5S4d6PHIj9dF4pt7RZYiRG76RM9FNWBzxsqYRo9QqKnOafrs1aODRrmwmRvpGq64RIQLVuT/qV3/O9pgjM2q+HqxGhUwjxn5HAJDo2O8IACoyToyMhx3JYIz8b4wbI98BSxXxrNuqpZ0AAAAASUVORK5CYII=" alt="duck in river" width="50" height="50">Rivers + 1 cps Cost: <span id="buy1">25</span></button>
+        <button onclick="buy(2)"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAQTSURBVGhD7dV7bFNVHAfw33309nELfcy1mzJWMZGJExcdiMQMCOoQDTgCOBIZiRJniCbGEYaPpCEatjp0cSY6iTOimOgSZRDIHC44ZnTUsKj8oSQdsnTdg1ZQ+m5ve4/ntmeJy1xXOpvxx/kkW/v79XQ933vPbwWKoiiKoiiKoiiKoiiKoiiKoqjsMOQxr0522otKTYNbNPy1+xHikt6/rGedwyVfNzS0RsiSOct7kM4PGw2r7jrjMBgDG6UErzWK1wsSCUYa85a/d9634tXt2w/EydI5Yclj3txR4qu0FPy9xelkLrzSIIVH3CKKXxQE3W/Dz5cPDXz+68GaQ12try8ly3OW9yCM7LOxTNRcsVy6e/16tAANITY4qAb5MisuHB/dqrt0+Rl2YricLM9Z3oOoBKsHgUq6xRSybX4katR6WUhcQyBNyBAbZ+VEYdlhr7n4NFmes7wE6bTbhfNf1dW4Tj37QiymCYejZhcgBlT6BCOUxoE34dHUqxCj54KSmvHsbmwJkLfmLC/DfvbEa0+VF55+Rwj6i2NiYYTTRdQG7TgHgADJDPhHRXC690A3uwYGeXEoELj6bVnA1fPlvl3HyZ+4Yf9bkPqmtnvPGSvrg/rbHmstPmWrvtUBHCSA5VD6U/CDEkKpEX7uC90DzZ43oS28FJKT20AoUvXnjwf6X9zgSDeyN+cgT7d0PNBvXtXk1pWsBYZhytgQnLTth1KxF2SJAU6FgOXl1FopwoFKg7eNDzTCacZCD8G2S+/CQHJB6vVJQiI6scNzrObI/ufOkdascp6RxuZmw8r3v3v7aMm2Pre4eJ0SQunr+SiYNSMgx9hUCCWMnExfLyWAnEx/pLLcor0Aq7Wjqfrf4rym6Ihtx0BVW88+0ppVTkH2vNFS+knR1r6fzJUv4y1pSDuFZRDwbBAAH6FkDI8Fi/Cm8VlSJJUA5DnGsRFYpvGSarp+y2pHdeuxelJmdMNBdjo61nTcvuvnKxprBWlNMS4thLHwivTxARnPBZu6C4kwl+oxyswQMhLw78ynu6f44fbatz7dQMoZ4UuWvbqmj6o6F23qivFaE2lN40cceEIVsFwXgQL1H/hKJXAiBhgeXzW1MtYMDqgCKWmA4fCj8IHvCfg9KZJ3/zeXaHt878qC9h96e2OkNU3Ww64cp6OltX1+wWgjrYzuZKPwpN4FVvUYqFl/avsyo4K4rMU/AlyVCuGXyCL4Pm6EWBbbWBwc6XbvXraRlNNkFcRut2vabXVnrmgtD5LWvKj1dG3+Yu/OE6ScIqsZ+ca67uB8h1B0W9bO+P0yaxBluJ2m+14i5by6LhjLag99tomUU2QMohyp40XVH09+R9wMZrorGYNcFJdU+9WGJaS8KSh3RfnvSUoC4B8uaWJ1xnevDAAAAABJRU5ErkJggg==" alt="duck in lake" width="50" height="50">Lakes 3 + 10 cps Cost: <span id="buy2">50</span></button>
+        <button onclick="buy(3)"><img src="" alt="" width="50" height="50">Buy Upgrade 4 + 50 cps Cost:<span id="buy3">100</span></button>
+		<button onclick="buy(4)"><img src="" alt="" width="50" height="50">Buy Upgrade 5 + 50 cps Cost:<span id="buy4">100</span></button>
+		<button onclick="buy(5)"><img src="" alt="" width="50" height="50">Buy Upgrade 6 + 50 cps Cost:<span id="buy5">100</span></button>
+		<button onclick="buy(6)"><img src="" alt="" width="50" height="50">Buy Upgrade 7 + 50 cps Cost:<span id="buy6">100</span></button>
+		<button onclick="buy(7)"><img src="" alt="" width="50" height="50">Buy Upgrade 8 + 50 cps Cost:<span id="buy7">100</span></button>
+		<button onclick="buy(8)"><img src="" alt="" width="50" height="50">Buy Upgrade 9 + 50 cps Cost:<span id="buy8">100</span></button>
+		<button onclick="buy(9)"><img src="" alt="" width="50" height="50">Buy Upgrade 10 + 50 cps Cost:<span id="buy9">100</span></button>
+		<button onclick="buy(10)"><img src="" alt="" width="50" height="50">Buy Upgrade 11 + 50 cps Cost:<span id="buy10">100</span></button>
+		<button onclick="buy(11)"><img src="" alt="" width="50" height="50">Buy Upgrade 12 + 50 cps Cost:<span id="buy11">100</span></button>
+		<button onclick="buy(12)"><img src="" alt="" width="50" height="50">Buy Upgrade 13 + 50 cps Cost:<span id="buy12">100</span></button>
+		<button onclick="buy(13)"><img src="" alt="" width="50" height="50">Buy Upgrade 14 + 50 cps Cost:<span id="buy13">100</span></button>
     </div>
-	
+    
     <div class="credits" id="credits">
-        Credits<br>
-        Creator: Christopher
-    </div>
-	
-	<div class="cheats" id="cheats" style="display: none;">
-	<form>
-        <input type="number" id="userNumber" placeholder="Enter a number">
-        <br>
-        <button type="button" onclick="submitNumber()">Submit</button>
-    </form>
-		<button onclick="mode = 'c'">set clicks</button>
-		<button onclick="mode = 'cp'">set cp</button>
-		<button onclick="mode = 'cps'">set cps</button>
-    </div>
-	
-	<div class="changelog" id="changelog" style="display: none;">
-		<p>v1.04 6/25/2024 Fixed menus for mobile and added cheats</p>
-		<p>v1.03 6/25/2024 Made the shop worth it (prior wouldnt receive any cps), Added changelog, Shop shows what you will receive for each upgrade, Cps also shows</p>
-		<p>v1.02 6/25/2024 Removed zooming for mobile </p>
-        <p>v1.01 6/25/2024 Release </p>
-    </div>
-	
-</div>
-
-<div id="desktop" style="display: flex;">
-    <div class="stats" id="statsDesktop" style="display: none;">Stats</div>
-	
-    <div class="home" id="homeDesktop" style="display: none;">
-        <img id="duckDesktop" onclick="buttonClick(1)" src="https://static.wikia.nocookie.net/the-rp-crew/images/1/10/Mr._Rubber_Ducky_Model.png/revision/latest/scale-to-width-down/317?cb=20221202165102" alt="Duck" width="250" height="300">
-        <br>
-        <p id="scoreDesktop">0</p>
-		<p id="cpsDesktop">0</p>
+        <p>Credits</p>
+        <p>Creator: Christopher</p>
     </div>
     
-    <div class="shop" id="shopDesktop" style="display: flex;">
-        <button onclick="buy(0)">Buy Upgrade 1 + 0.1 cps Cost: <span id="buyDesktop0">10</span></button>
-        <button onclick="buy(1)">Buy Upgrade 2 + 1 cps Cost: <span id="buyDesktop1">25</span></button>
-        <button onclick="buy(2)">Buy Upgrade 3 + 10 cps Cost: <span id="buyDesktop2">50</span></button>
-        <button onclick="buy(3)">Buy Upgrade 4 + 50 cps Cost: <span id="buyDesktop3">100</span></button>
+    <div class="cheats" id="cheats" style="display: none;">
+        <form>
+            <input type="number" id="userNumber" placeholder="Enter a number">
+            <br>
+            <button type="button" onclick="submitNumber()">Submit</button>
+        </form>
+        <button onclick="mode = 'c'">set clicks</button>
+        <button onclick="mode = 'cp'">set cp</button>
+        <button onclick="mode = 'cps'">set cps</button>
     </div>
     
-    <div class="credits" id="creditsDesktop" style="display: none;">
-        Credits<br>
-        Creator: Christopher
-    </div>
-	
-	<div class="cheats" id="cheatsDesktop" style="display: none;">
-		<button onclick="setc(parseInt(prompt(value)))">set clicks</button>
-		<button onclick="setcp(parseInt(prompt(value)))">set cp</button>
-		<button onclick="setcps(parseInt(prompt(value)))">set cps</button>
-    </div>
-	
-	<div class="changelog" id="changelogDesktop" style="display: none;">
-		<p>v1.04 6/25/2024 Fixed menus for mobile and added cheats</p>
-		<p>v1.03 6/25/2024 Made the shop worth it (prior wouldnt receive any cps), Added changelog, Shop shows what you will receive for each upgrade, Cps also shows</p>
-		<p>v1.02 6/25/2024 Removed zooming for mobile </p>
+    <div class="changelog" id="changelog" style="display: none;">
+        <p>v1.05 6/30/2024 Added settings and the ability to change the theme, Loads of optimization combined mobile/desktop view, started naming upgrades, Added in upgrades, Added a system to abbreviate scores and prices</p>
+        <p>v1.04 6/25/2024 Fixed menus for mobile and added cheats</p>
+        <p>v1.03 6/25/2024 Made the shop worth it (prior wouldnt receive any cps), Added changelog, Shop shows what you will receive for each upgrade, Cps also shows</p>
+        <p>v1.02 6/25/2024 Removed zooming for mobile </p>
         <p>v1.01 6/25/2024 Release </p>
     </div>
-	
+    
+    <div class="settings" id="settings" style="display: none;">    
+        <p>Settings</p>
+        
+        <p>Themes</p>
+        <button onclick="changetheme('black')">Dark</button>
+        <button onclick="changetheme('white')">Light</button>
+        <button onclick="changetheme('blue')">Blue</button>
+    </div>
+    
 </div>
 
 <script>
-function isMobileDevice() {
-    return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-}
 
-function showCorrectDiv() {
-    var mobileDiv = document.getElementById('mobile');
-    var desktopDiv = document.getElementById('desktop');
+var screenDiv = document.getElementById('screen');
+screenDiv.style.display = 'flex';
 
-    if (isMobileDevice()) {
-        mobileDiv.style.display = 'flex';
-        desktopDiv.style.display = 'none';
-    } else {
-        mobileDiv.style.display = 'none';
-        desktopDiv.style.display = 'flex';
+function changetheme(style) {
+    if (style === 'black') {
+        document.body.style.backgroundColor = "black";
+
+        document.querySelectorAll('p, h1, h2, h3, h4, h5, h6').forEach(element => {
+            element.style.color = 'white';
+        });
+        
+        document.querySelectorAll('button').forEach(button => {
+            button.style.backgroundColor = 'orange';
+            button.style.color = 'black';
+        });
+    } else if (style === 'white') {
+        document.body.style.backgroundColor = "white";
+
+        document.querySelectorAll('p, h1, h2, h3, h4, h5, h6').forEach(element => {
+            element.style.color = 'black';
+        });
+        
+        document.querySelectorAll('button').forEach(button => {
+            button.style.backgroundColor = 'gray';
+            button.style.color = 'white';
+        });
+    } else if (style === 'blue') {
+        document.body.style.backgroundColor = "#1F51FF";
+
+        document.querySelectorAll('p, h1, h2, h3, h4, h5, h6').forEach(element => {
+            element.style.color = 'white';
+        });
+        
+        document.querySelectorAll('button').forEach(button => {
+            button.style.backgroundColor = 'blue';
+            button.style.color = 'white';
+        });
     }
 }
 
 function openPage(page) {
-    var statsDiv, homeDiv, shopDiv, creditsDiv, cheats, changelogDiv;
-
-    if (isMobileDevice()) {
-        statsDiv = document.getElementById('stats');
-        homeDiv = document.getElementById('home');
-        shopDiv = document.getElementById('shop');
-        creditsDiv = document.getElementById('credits');
-		cheatsDiv = document.getElementById('cheats');
-		changelogDiv = document.getElementById('changelog');
-    } else {
-        statsDiv = document.getElementById('statsDesktop');
-        homeDiv = document.getElementById('homeDesktop');
-        shopDiv = document.getElementById('shopDesktop');
-        creditsDiv = document.getElementById('creditsDesktop');
-		cheatsDiv = document.getElementById('cheatsDesktop');
-		changelogDiv = document.getElementById('changelogDesktop');
-    }
+    var statsDiv = document.getElementById('stats');
+    var homeDiv = document.getElementById('home');
+    var shopDiv = document.getElementById('shop');
+    var creditsDiv = document.getElementById('credits');
+    var cheatsDiv = document.getElementById('cheats');
+    var changelogDiv = document.getElementById('changelog');
+    var settingsDiv = document.getElementById('settings');
 
     statsDiv.style.display = 'none';
     homeDiv.style.display = 'none';
     shopDiv.style.display = 'none';
     creditsDiv.style.display = 'none';
-	cheatsDiv.style.display = 'none';
-	changelogDiv.style.display = 'none';
+    cheatsDiv.style.display = 'none';
+    changelogDiv.style.display = 'none';
+    settingsDiv.style.display = 'none';
 
     if (page === 'home') {
         homeDiv.style.display = 'flex';
@@ -266,98 +232,107 @@ function openPage(page) {
         cheatsDiv.style.display = 'flex';
     } else if (page === 'changelog') {
         changelogDiv.style.display = 'flex';
+    } else if (page === 'settings') {
+        settingsDiv.style.display = 'flex';
     }
 }
 
 window.onload = function() {
-    showCorrectDiv();
     openPage('home');
-	start();
-    update(); // Call update function initially to set the correct values
+    start();
+    update(); 
 };
-		
+        
 // Game program
-        console.log("you shouldn't be here");
-		var cp = 1
-		var cps = 0
-        var clicks = 0;
-        var costs = [15, 100, 1100, 12000];
-		var cpsgain = [0.1, 1, 10, 50];
-		
-		function start() {
-		setInterval(tick, 1000);
-		}
-		
-		function tick(){
-		console.log('tick');
-		clicks = clicks + cps;
-		clicks = Math.round(clicks * 10) / 10;
-		update();
-		}
+var cp = 1;
+var cps = 0;
+var clicks = 0;
+var costs = [15, 100, 1100, 12000, 130000, 1400000, 20000000, 330000000, 5100000000, 75000000000, 1000000000000, 14000000000000, 170000000000000, 2100000000000000];
+var cpsgain = [0.1, 1, 10, 50, 250, 1500, 8000, 50000, 250000, 1500000, 10000000, 65000000, 450000000, 3000000000];
 
-        function buttonClick(id) {
-            clicks = clicks + cp;
-            update();
-        }
 
-        function buy(i) {
-            if (clicks >= costs[i]) {
-                clicks -= costs[i];
-				cps = cps + cpsgain[i];
-				cps = Math.round(cps * 10) / 10;
-                console.log(`You bought ${costs[i]}`);
-                costs[i] = Math.round(costs[i] * 1.15);
-                update();
-            } else {
-                console.log('Not enough ducks!');
-            }
-        }
+function abbreviate(input){
+	if (input >= 1000000000000000) {
+	return Math.round((input / 1000000000000000) * 10) / 10 + "Q";
+	} else if (input >= 1000000000000){
+	return Math.round((input / 1000000000000) * 10) / 10 + "T";
+	} else if (input >= 1000000000){
+	return Math.round((input / 1000000000) * 10) / 10 + "B";
+	} else if (input >= 1000000){
+	return Math.round((input / 1000000) * 10) / 10 + "M";
+	} else if (input >= 1000){
+	return Math.round((input / 1000) * 10) / 10 + "K";
+	} else {
+	return input;
+	}
+}
 
-        function update() {
-            for (var i = 0; i < costs.length; i++) {
-                document.getElementById("buy" + i).innerHTML = costs[i];
-				document.getElementById("buyDesktop" + i).innerHTML = costs[i];
-            }
-            document.getElementById("score").innerHTML ='Clicks: '+clicks;
-			document.getElementById("scoreDesktop").innerHTML ='Clicks: '+clicks;
-			
-			document.getElementById("cps").innerHTML = 'Cps: '+cps;
-			document.getElementById("cpsDesktop").innerHTML ='Cps: '+cps;
-        }
-		
-		
-		
-		//Cheats
-		var mode = 'c';
-		
-		function submitNumber() {
-            var userInput = document.getElementById("userNumber").value;
-			console.log(userInput);
-			if (mode === 'c') {
-				setc(parseInt(userInput));
-			} else if (mode === 'cp'){
-				setcp(parseInt(userInput));
-			} else if (mode === 'cps'){
-				setcps(parseInt(userInput));
-			}
-        }
+function start() {
+    setInterval(tick, 1000);
+}
 
-		function setc(value){
-		if (value >= 0) {
-			clicks = value;
-			update();
-			}
-		}
-		function setcp(value){
-		if (value >= 0) {
-			cp = value;
-			}
-		}
-		function setcps(value){
-		if (value >= 0) {
-			cps = value;
-			}
-		}
+function tick(){
+    clicks = clicks + cps;
+    clicks = Math.round(clicks * 10) / 10;
+    update();
+}
+
+function buttonClick(id) {
+    clicks = clicks + cp;
+    update();
+}
+
+function buy(i) {
+    if (clicks >= costs[i]) {
+        clicks -= costs[i];
+        cps = cps + cpsgain[i];
+        cps = Math.round(cps * 10) / 10;
+        console.log(`You bought +i`);
+        costs[i] = Math.round(costs[i] * 1.2);
+        update();
+    } else {
+        console.log('Not enough ducks!');
+    }
+}
+
+function update() {
+    for (var i = 0; i < costs.length; i++) {
+        document.getElementById("buy" + i).innerHTML = abbreviate(costs[i]);
+    }
+    document.getElementById("score").innerHTML ='Clicks: '+abbreviate(clicks);
+    document.getElementById("cps").innerHTML = 'Cps: '+abbreviate(cps);
+}
+
+// Cheats
+var mode = 'c';
+
+function submitNumber() {
+    var userInput = document.getElementById("userNumber").value;
+    if (mode === 'c') {
+        setc(parseInt(userInput));
+    } else if (mode === 'cp'){
+        setcp(parseInt(userInput));
+    } else if (mode === 'cps'){
+        setcps(parseInt(userInput));
+    }
+}
+
+function setc(value){
+    if (value >= 0) {
+        clicks = value;
+        update();
+    }
+}
+function setcp(value){
+    if (value >= 0) {
+        cp = value;
+    }
+}
+function setcps(value){
+    if (value >= 0) {
+        cps = value;
+    }
+}
 </script>
 
 </body>
